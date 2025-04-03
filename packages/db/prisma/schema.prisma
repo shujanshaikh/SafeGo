@@ -1,0 +1,93 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        Int        @id @default(autoincrement())
+  userId    String     @unique
+  email     String     @unique
+  password  String
+  messages  Messages[]
+  locations Location[]
+  weather   Weather[]
+  crimeRates CrimeRate[]
+  createdAt DateTime   @default(now())
+  updatedAt DateTime   @updatedAt
+}
+
+
+model Location {
+  id        Int      @id @default(autoincrement())
+  locationId String   @unique
+  locationA String
+  locationB String
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  maps      Map[]
+  users     User[]
+  weather   Weather[]
+}
+
+model Messages {
+  id        Int      @id @default(autoincrement())
+  messageId String   @unique
+  message   String
+  role      Role
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Map {
+  id         Int      @id @default(autoincrement())
+  mapId      String   @unique
+  locationId Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  location   Location @relation(fields: [locationId], references: [id])
+}
+
+model  Weather {
+  id        Int      @id @default(autoincrement())
+  weatherId String   @unique
+  locationId Int
+  createdAt DateTime @default(now())  
+  updatedAt DateTime @updatedAt
+  location  Location @relation(fields: [locationId], references: [id])
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+}
+
+
+model CrimeRate {
+  id        Int      @id @default(autoincrement())
+  crimeRateId String   @unique
+  aimessage   String
+  role      CrimeRole
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
+  createdAt DateTime @default(now())  
+  updatedAt DateTime @updatedAt
+}
+
+enum CrimeRole {
+  LOCATION
+  PERPLEXITY
+}
+
+enum Role {
+  USER
+  SYSTEM
+}
