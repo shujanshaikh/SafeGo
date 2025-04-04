@@ -23,6 +23,7 @@ authRouter.post("/signup", async (req, res) => {
         data: {
             email: parsedData.data.email,
             password: hashedPassword,
+            userId : req.userId,
         }
     })
     console.log(user)
