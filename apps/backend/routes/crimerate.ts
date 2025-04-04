@@ -2,7 +2,7 @@ import { Router } from "express";
 import { middleware } from "../middleware";
 import { locationSchema } from "@repo/common";
 import Groq from 'groq-sdk';
-import { SYSTEM_PROMPT } from "../systemprompt";
+import { SYSTEM_PROMPT } from "../prompts/systemprompt";
 
 
 export const crimeRateRouter = Router();
