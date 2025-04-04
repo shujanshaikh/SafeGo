@@ -13,6 +13,7 @@ import {
 import MapWithDirections from '@/components/map';
 import WeatherInfo from '@/components/WeatherInfo';
 import { BACKEND_URL } from '@/config';
+import axios from 'axios';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -52,14 +53,19 @@ function App() {
     setIsChatLoading(true);
 
     try {
-      const response = await fetch('http://localhost:8080/api/v1/chatbot/chat', {
-        method: 'POST',
+      const token = localStorage.getItem('token');
+      if(!token) {
+        console.log('No token found');
+        return;
+      }
+      const response = await axios.post(`${BACKEND_URL}/chat`, {
+        prompt: userMessage
+      } , {
         headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({ prompt: userMessage }),
+          'Authorization': `Bearer ${token}`
+        }
       });
-      const data = await response.json();
+      const data = await response.data;
       setChatMessages(prev => [...prev, { role: 'assistant', content: data.message }]);
     } catch (error) {
       console.error('Error sending message:', error);

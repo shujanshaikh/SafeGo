@@ -8,7 +8,7 @@ import { SAFETY_PROMPT } from "../prompts/safetyprompts";
 export const chatbotRouter = Router();
 const groq = new Groq({ apiKey: Bun.env.GROQ_API_KEY });
 
-chatbotRouter.post("/chat", async (req, res) => {
+chatbotRouter.post("/chat",middleware, async (req, res) => {
 
     try {
         const userId = req.userId!;

@@ -18,6 +18,7 @@ model User {
   email     String     @unique
   password  String
   weather   Weather[]
+  messages  Messages[]
   crimeRates CrimeRate[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
@@ -39,7 +40,8 @@ model Messages {
   id        Int      @id @default(autoincrement())
   message   String
   role      Role
-  userId    String
+  userId    Int
+  user      User     @relation(fields: [userId], references: [id])
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
 }
