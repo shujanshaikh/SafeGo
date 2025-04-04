@@ -2,17 +2,22 @@
 import { useState } from "react";
 import axios from "axios";
 import { BACKEND_URL } from "@/config";
+import { useRouter } from "next/navigation";
 
 export default function Signin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
-  const signin = async () => {
-    const input : { email: string, password: string } = { email, password };
- await axios.post(`${BACKEND_URL}/signin`, input).then((res) => {
-      console.log(res);
-    }).catch((err) => {
-      console.log(err);
-    });
+  const router = useRouter();
+ 
+
+  const signin =async () => {
+        await axios.post(`${BACKEND_URL}/signin`, { email, password }).then((res) => {
+            const token = res.data.token;
+            localStorage.setItem("token", token);
+            router.push('/');
+        }).catch((err) => {
+            console.log(err)
+        })
   }
     const handleSubmit = (e: React.FormEvent) => {
         e.preventDefault();

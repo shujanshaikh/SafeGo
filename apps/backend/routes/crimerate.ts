@@ -9,7 +9,7 @@ export const crimeRateRouter = Router();
 const groq = new Groq({ apiKey: Bun.env.GROQ_API_KEY });
 
 
-crimeRateRouter.post("/crimerate", async (req, res) => {
+crimeRateRouter.post("/crimerate", middleware, async (req, res) => {
     try {
         const parsedData = locationSchema.safeParse(req.body);
         if (!parsedData.success) {

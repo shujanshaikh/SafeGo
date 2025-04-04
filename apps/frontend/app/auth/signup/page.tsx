@@ -24,8 +24,8 @@ export default function Signup() {
     return <div className="flex items-center justify-center h-screen">
         <div className="w-full max-w-md">
             <div className="text-center mb-4">
-                <h2 className="text-2xl font-bold mb-2">Sign In</h2>
-                <p className="text-gray-500">Enter your credentials to sign in</p>
+                <h2 className="text-2xl font-bold mb-2">Sign Up</h2>
+                <p className="text-gray-500">Enter your credentials to sign up</p>
             </div>
             <form className="space-y-4" onSubmit={handleSubmit}>
                 <div>
