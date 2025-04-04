@@ -4,13 +4,12 @@ import {
   Shield, 
   AlertTriangle, 
   Cloud, 
-  Map, 
-  Navigation, 
   Users,
   Menu,
   X
 } from 'lucide-react';
 import MapWithDirections from '@/components/map';
+import WeatherInfo from '@/components/WeatherInfo';
 
 function App() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -117,7 +116,12 @@ function App() {
             {/* Map Preview */}
             <div className="lg:col-span-2 bg-white rounded-lg shadow-sm border border-gray-200 p-4">
               <div className="aspect-w-16 aspect-h-9 mb-4">
-               <MapWithDirections />
+               <MapWithDirections 
+                 origin={startLocation}
+                 destination={endLocation}
+                 setOrigin={setStartLocation}
+                 setDestination={setEndLocation}
+               />
               </div>
               <div className="flex justify-center">
                 
@@ -147,6 +151,8 @@ function App() {
                     <p className="text-sm text-red-700">{spot.issue}</p>
                   </div>
                 ))}
+                {startLocation && <WeatherInfo city={startLocation} />}
+                {endLocation && <WeatherInfo city={endLocation} />}
               </div>
             </div>
           </div>

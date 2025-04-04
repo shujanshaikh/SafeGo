@@ -19,9 +19,17 @@ const center = {
   lng: 72.8777,
 };
 
-const MapWithDirections = () => {
-  const [origin, setOrigin] = useState("");
-  const [destination, setDestination] = useState("");
+const MapWithDirections = ({
+    origin,
+    destination,
+    setOrigin,
+    setDestination
+  }: {
+    origin: string;
+    destination: string;
+    setOrigin: React.Dispatch<React.SetStateAction<string>>;
+    setDestination: React.Dispatch<React.SetStateAction<string>>;
+  }) =>{
   const [response, setResponse] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
   const [showRoute, setShowRoute] = useState(false);
@@ -36,32 +44,35 @@ const MapWithDirections = () => {
     setResponse(null); 
   };
   
-  
 
   return (
     <div className="p-4 bg-gray-100 rounded-lg shadow-md">
       {/* Inputs */}
-      <div className="flex space-x-2 mb-4">
-        <input
-          type="text"
-          className="p-2 border rounded"
-          placeholder="Origin (e.g., Mumbai)"
-          value={origin}
-          onChange={(e) => setOrigin(e.target.value)}
-        />
-        <input
-          type="text"
-          className="p-2 border rounded"
-          placeholder="Destination (e.g., Pune)"
-          value={destination}
-          onChange={(e) => setDestination(e.target.value)}
-        />
+      <div className="flex flex-col sm:flex-row gap-4 mb-4">
+        <div className="flex-1">
+          <input
+            type="text"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+            placeholder="Origin (e.g., Mumbai)"
+            value={origin}
+            onChange={(e) => setOrigin(e.target.value)}
+          />
+        </div>
+        <div className="flex-1">
+          <input
+            type="text"
+            className="w-full p-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 transition-all"
+            placeholder="Destination (e.g., Pune)"
+            value={destination}
+            onChange={(e) => setDestination(e.target.value)}
+          />
+        </div>
         <button
-          className="flex items-center justify-center w-full sm:w-64 px-6 py-3 bg-emerald-700 text-white rounded-md hover:bg-emerald-500 transition-colors"
+          className="w-full sm:w-auto px-6 py-3 bg-emerald-700 text-white rounded-lg hover:bg-emerald-600 active:bg-emerald-800 transition-colors flex items-center justify-center shadow-sm"
           onClick={handleRoute}
         >
-            <Navigation className="h-5 w-5 mr-2" />
-            Start Navigation
+          <Navigation className="h-5 w-5 mr-2" />
+          <span className="whitespace-nowrap">Go</span>
         </button>
       </div>
 
@@ -93,15 +104,30 @@ const MapWithDirections = () => {
 
       {/* Route Info */}
       {response?.routes?.[0]?.legs?.[0] ? (
-        <div className="mt-4 p-3 bg-gray-200 rounded">
-          <h4>🛣️ Route Info</h4>
-          <p>
-            Distance: {response.routes[0].legs[0].distance.text} | 
-            Duration: {response.routes[0].legs[0].duration.text}
-          </p>
+        <div className="mt-4 p-6 bg-white rounded-lg shadow-md border border-emerald-100">
+          <div className="flex items-center justify-between mb-4">
+            <h4 className="text-lg font-semibold text-emerald-800 flex items-center">
+              🛣️ Route Information
+            </h4>
+          </div>
+          <div className="grid grid-cols-2 gap-4">
+            <div className="p-4 bg-emerald-50 rounded-lg">
+              <p className="text-sm text-emerald-600 mb-1">Distance</p>
+              <p className="text-2xl font-bold text-emerald-900">{response.routes[0].legs[0].distance.text}</p>
+            </div>
+            <div className="p-4 bg-emerald-50 rounded-lg">
+              <p className="text-sm text-emerald-600 mb-1">Duration</p>
+              <p className="text-2xl font-bold text-emerald-900">{response.routes[0].legs[0].duration.text}</p>
+            </div>
+          </div>
         </div>
       ) : error ? (
-        <p className="text-red-500">{error}</p>
+        <div className="mt-4 p-4 bg-red-50 border border-red-200 rounded-lg">
+          <p className="text-red-600 flex items-center">
+            <span className="mr-2">⚠️</span>
+            {error}
+          </p>
+        </div>
       ) : null}
     </div>
   );
