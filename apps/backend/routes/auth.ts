@@ -4,11 +4,11 @@ import prisma from "@repo/db";
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
 import { JWT_SECRET } from "../config";
-import { middleware } from "../middleware";
 
 export const authRouter = Router();
 
 authRouter.post("/signup", async (req, res) => {
+    console.log(req.body)
   try {
     const parsedData = SignupSchema.safeParse(req.body);
     if (!parsedData.success) {
@@ -25,7 +25,7 @@ authRouter.post("/signup", async (req, res) => {
             password: hashedPassword,
         }
     })
-
+    console.log(user)
     res.status(201).json({
         message: "User Created Successfully",
         user: user.id
