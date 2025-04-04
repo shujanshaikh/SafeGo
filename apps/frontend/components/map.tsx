@@ -7,6 +7,7 @@ import {
   DirectionsService,
   DirectionsRenderer,
 } from "@react-google-maps/api";
+import { Navigation } from "lucide-react";
 
 const containerStyle = {
   width: "100%",
@@ -56,10 +57,11 @@ const MapWithDirections = () => {
           onChange={(e) => setDestination(e.target.value)}
         />
         <button
-          className="bg-blue-500 text-white px-3 py-2 rounded"
+          className="flex items-center justify-center w-full sm:w-64 px-6 py-3 bg-emerald-700 text-white rounded-md hover:bg-emerald-500 transition-colors"
           onClick={handleRoute}
         >
-          Get Route
+            <Navigation className="h-5 w-5 mr-2" />
+            Start Navigation
         </button>
       </div>
 
@@ -84,7 +86,6 @@ const MapWithDirections = () => {
     }}
   />
 )}
-
           {/* Directions Renderer */}
           {response && <DirectionsRenderer options={{ directions: response }} />}
         </GoogleMap>
@@ -107,3 +108,4 @@ const MapWithDirections = () => {
 };
 
 export default MapWithDirections;
+
