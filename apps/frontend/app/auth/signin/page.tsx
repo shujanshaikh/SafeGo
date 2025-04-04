@@ -1,15 +1,14 @@
 "use client";
 import { useState } from "react";
 import axios from "axios";
-
-const BACKEND_URL = "http://localhost:8080";
+import { BACKEND_URL } from "@/config";
 
 export default function Signin() {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('')
   const signin = async () => {
     const input : { email: string, password: string } = { email, password };
- await axios.post(`${BACKEND_URL}/api/v1/signin`, input).then((res) => {
+ await axios.post(`${BACKEND_URL}/signin`, input).then((res) => {
       console.log(res);
     }).catch((err) => {
       console.log(err);

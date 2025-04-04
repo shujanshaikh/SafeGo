@@ -2,8 +2,7 @@
 import { useState } from "react";
 import axios from "axios";
 import router from "next/router";
-
-const BACKEND_URL = "http://localhost:8080";
+import { BACKEND_URL } from "@/config";
 
 export default function Signup() {
   const [email, setEmail] = useState('');
@@ -11,7 +10,7 @@ export default function Signup() {
 
   const signup = async () => {
     const input : { email: string, password: string } = { email, password };
- await axios.post(`${BACKEND_URL}/api/v1/signup`, input).then((res) => {
+ await axios.post(`${BACKEND_URL}/signup`, input).then((res) => {
       console.log(res);
     }).catch((err) => {
       console.log(err);

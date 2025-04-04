@@ -8,7 +8,7 @@ import { SAFETY_PROMPT } from "../prompts/safetyprompts";
 export const chatbotRouter = Router();
 const groq = new Groq({ apiKey: Bun.env.GROQ_API_KEY });
 
-chatbotRouter.post("/chat", middleware, async (req, res) => {
+chatbotRouter.post("/chat", async (req, res) => {
 
     try {
         const userId = req.userId!;
@@ -38,7 +38,7 @@ chatbotRouter.post("/chat", middleware, async (req, res) => {
         
         const convo: ChatCompletionMessageParam[] = [
             { role: "system", content: SAFETY_PROMPT },
-            ...previousMessages.map(p => ({
+            ...previousMessages.map((p: any) => ({
                 role: p.role.toLowerCase() as "user" | "assistant" | "system",
                 content: p.message || ""
             })),

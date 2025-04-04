@@ -8,6 +8,7 @@ import {
   DirectionsRenderer,
 } from "@react-google-maps/api";
 import { Navigation } from "lucide-react";
+import WeatherInfo from "./WeatherInfo";
 
 const containerStyle = {
   width: "100%",
@@ -23,12 +24,14 @@ const MapWithDirections = ({
     origin,
     destination,
     setOrigin,
-    setDestination
+    setDestination,
+    onRouteStart
   }: {
     origin: string;
     destination: string;
     setOrigin: React.Dispatch<React.SetStateAction<string>>;
     setDestination: React.Dispatch<React.SetStateAction<string>>;
+    onRouteStart?: (origin: string, destination: string) => void;
   }) =>{
   const [response, setResponse] = useState<any>(null);
   const [error, setError] = useState<string | null>(null);
@@ -41,7 +44,8 @@ const MapWithDirections = ({
       return;
     }
     setShowRoute(true);
-    setResponse(null); 
+    setResponse(null);
+    onRouteStart?.(origin, destination);
   };
   
 
@@ -110,7 +114,7 @@ const MapWithDirections = ({
               🛣️ Route Information
             </h4>
           </div>
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-2 gap-4 mb-6">
             <div className="p-4 bg-emerald-50 rounded-lg">
               <p className="text-sm text-emerald-600 mb-1">Distance</p>
               <p className="text-2xl font-bold text-emerald-900">{response.routes[0].legs[0].distance.text}</p>
@@ -118,6 +122,31 @@ const MapWithDirections = ({
             <div className="p-4 bg-emerald-50 rounded-lg">
               <p className="text-sm text-emerald-600 mb-1">Duration</p>
               <p className="text-2xl font-bold text-emerald-900">{response.routes[0].legs[0].duration.text}</p>
+            </div>
+          </div>
+          
+          {/* Weather Information */}
+          <div className="border-t border-emerald-100 pt-6">
+            <h4 className="text-lg font-semibold text-emerald-800 flex items-center mb-4">
+              🌤️ Weather Conditions
+            </h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div className="bg-blue-50 rounded-lg">
+                <div className="p-3 border-b border-blue-100">
+                  <p className="text-sm font-medium text-blue-800">Origin: {origin}</p>
+                </div>
+                <div className="p-4">
+                  <WeatherInfo city={origin} />
+                </div>
+              </div>
+              <div className="bg-blue-50 rounded-lg">
+                <div className="p-3 border-b border-blue-100">
+                  <p className="text-sm font-medium text-blue-800">Destination: {destination}</p>
+                </div>
+                <div className="p-4">
+                  <WeatherInfo city={destination} />
+                </div>
+              </div>
             </div>
           </div>
         </div>

@@ -15,10 +15,8 @@ datasource db {
 
 model User {
   id        Int        @id @default(autoincrement())
-  userId    String     @unique
   email     String     @unique
   password  String
-  locations Location[]
   weather   Weather[]
   crimeRates CrimeRate[]
   createdAt DateTime   @default(now())
@@ -34,7 +32,6 @@ model Location {
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
   maps      Map[]
-  users     User[]
   weather   Weather[]
 }
 
